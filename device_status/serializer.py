@@ -49,4 +49,10 @@ class DeviceSerializer(serializers.ModelSerializer):
         model = DeviceModel
         fields = ['device_eui', 'latest_status']
 
-   
+
+class DevicePayloadSerializer(serializers.ModelSerializer):
+    payloads = PayloadResponseSerializer(many=True, read_only=True)
+
+    class Meta(DeviceSerializer.Meta):
+        fields = DeviceSerializer.Meta.fields + ['payloads']
+      

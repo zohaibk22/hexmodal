@@ -4,8 +4,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
-from .serializer import PayloadSerializer, PayloadResponseSerializer, DeviceSerializer
+from .serializer import PayloadSerializer, PayloadResponseSerializer, DeviceSerializer, DevicePayloadSerializer
 from .models import DeviceModel, PayloadModel
+from django.db.models import Prefetch
 
 
 class IngestPayloadView(APIView):
@@ -59,6 +60,12 @@ class DeviceView(APIView):
         
 
     def get(self, request):
+        includes_payload = request.query_params.get('includes') == 'payloads'
+    
         devices = DeviceModel.objects.all()
-        serialized_devices = DeviceSerializer(devices, many=True)
+        if includes_payload:
+            devices = devices.prefetch_related(Prefetch('payloads', queryset=PayloadModel.objects.order_by('-created_at')))
+            serialized_devices = DevicePayloadSerializer(devices, many=True)
+        else:
+            serialized_devices = DeviceSerializer(devices, many=True)
         return Response({'data': serialized_devices.data}, status=status.HTTP_200_OK)
