@@ -1,0 +1,9 @@
+django
+djangorestframework
+dotenv
+django-cors-headers
+djangorestframework-simplejwt
+djangorestframework-authtoken
+drf-spectacular
+psycopg2-binary
+requests
