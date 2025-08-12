@@ -46,12 +46,17 @@ device_status/            # App for device and payload models, serializers, view
 ### Example Payload Submission
 ```json
 {
-  "fCnt": 1,
-  "device": "ABC123...",
-  "data_b64": "SGVsbG8=",
-  "rx_info": [{"gateway": "gw1"}],
-  "tx_info": {"power": 14}
+"fCnt": 100,
+"devEUI": "abcdabcdabcdabcd",
+"data": "AQ==",
+ "rxInfo": [
+{"gatewayID": "1234123412341234",
+"name": "G1","time": "2022-07-19T11:00:00",
+"rssi": -57,"loRaSNR": 10}
+],
+   "txInfo": {"frequency": 86810000,"dr": 5}
 }
+
 ```
 
 ## License
